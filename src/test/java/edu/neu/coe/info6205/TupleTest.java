@@ -4,7 +4,7 @@
 
 package edu.neu.coe.info6205;
 
-import edu.neu.coe.info6205.equable.BaseEquable;
+import edu.neu.coe.info6205.coupling.equable.BaseEquable;
 import org.junit.Test;
 
 import java.util.Random;

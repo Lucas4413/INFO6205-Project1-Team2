@@ -4,10 +4,10 @@
 
 package edu.neu.coe.info6205;
 
-import edu.neu.coe.info6205.equable.BaseComparableEquable;
-import edu.neu.coe.info6205.equable.BaseEquable;
-import edu.neu.coe.info6205.equable.ComparableEquable;
-import edu.neu.coe.info6205.equable.Equable;
+import edu.neu.coe.info6205.coupling.equable.BaseComparableEquable;
+import edu.neu.coe.info6205.coupling.equable.BaseEquable;
+import edu.neu.coe.info6205.coupling.equable.ComparableEquable;
+import edu.neu.coe.info6205.coupling.equable.Equable;
 import org.junit.Test;
 
 import java.util.ArrayList;

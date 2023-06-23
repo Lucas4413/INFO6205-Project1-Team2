@@ -2,7 +2,7 @@
  * Copyright (c) 2017. Phasmid Software
  */
 
-package edu.neu.coe.info6205.equable;
+package edu.neu.coe.info6205.coupling.equable;
 
 import java.util.Collection;
 import java.util.Iterator;
