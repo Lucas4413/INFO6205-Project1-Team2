@@ -34,4 +34,12 @@ public class MadhavaTest extends TestCase {
         assertEquals(approximatePi.divide(4).doubleValue(), Madhava.quarterPi(1000, Madhava::termThird).toDouble(), 1E-3);
         assertEquals(approximatePi.divide(4).doubleValue(), Madhava.quarterPi(1000, Madhava::termFourth).toDouble(), 1E-3);
     }
+
+    @Test
+    public void testError() {
+        assertTrue(Math.abs(Madhava.mglSeries(1001).toDouble() - approximatePi.divide(4).doubleValue()) > Math.abs(Madhava.quarterPi(1000, Madhava::termFirst).toDouble() - approximatePi.divide(4).doubleValue()));;
+        assertTrue(Math.abs(Madhava.mglSeries(1001).toDouble() - approximatePi.divide(4).doubleValue()) > Math.abs(Madhava.quarterPi(1000, Madhava::termSecond).toDouble() - approximatePi.divide(4).doubleValue()));;
+        assertTrue(Math.abs(Madhava.mglSeries(1001).toDouble() - approximatePi.divide(4).doubleValue()) > Math.abs(Madhava.quarterPi(1000, Madhava::termThird).toDouble() - approximatePi.divide(4).doubleValue()));;
+        assertTrue(Math.abs(Madhava.mglSeries(1001).toDouble() - approximatePi.divide(4).doubleValue()) > Math.abs(Madhava.quarterPi(1000, Madhava::termFourth).toDouble() - approximatePi.divide(4).doubleValue()));;
+    }
 }

@@ -61,7 +61,7 @@ public class Madhava {
      */
     public static Rational termFirst(long i) {
         BigInteger n = BigInteger.valueOf(i);
-        return createRational(BigInteger.valueOf(1), n).$times(i%2 == 1 ? -1 : 1);
+        return createRational(BigInteger.valueOf(1), n.multiply(BigInteger.valueOf(4))).$times(i%2 == 0 ? 1 : -1);
     }
 
     /**
@@ -74,7 +74,7 @@ public class Madhava {
         BigInteger n = BigInteger.valueOf(i);
         BigInteger mole = n.multiply(BigInteger.valueOf(4));
         BigInteger denom = n.pow(2).multiply(BigInteger.valueOf(4)).add(BigInteger.valueOf(1));
-        return createRational(mole, denom).$times(i%2 == 1 ? -1 : 1);
+        return createRational(mole, denom.multiply(BigInteger.valueOf(4))).$times(i%2 == 0 ? 1 : -1);
     }
 
     /**
@@ -87,7 +87,7 @@ public class Madhava {
         BigInteger n = BigInteger.valueOf(i);
         BigInteger mole = n.pow(2).multiply(BigInteger.valueOf(4)).add(BigInteger.valueOf(4));
         BigInteger denom = n.pow(3).multiply(BigInteger.valueOf(4)).add(n.multiply(BigInteger.valueOf(4))).add(BigInteger.ONE);
-        return createRational(mole, denom).$times(i%2 == 1 ? -1 : 1);
+        return createRational(mole, denom.multiply(BigInteger.valueOf(4))).$times(i%2 == 0 ? 1 : -1);
     }
 
     /**
@@ -100,7 +100,7 @@ public class Madhava {
         BigInteger n = BigInteger.valueOf(i);
         BigInteger denom = n.pow(4).multiply(BigInteger.valueOf(4)).add(n.pow(2).multiply(BigInteger.valueOf(41))).add(BigInteger.valueOf(9));
         BigInteger mole = n.pow(3).multiply(BigInteger.valueOf(4)).add(n.multiply(BigInteger.valueOf(40)));
-        return createRational(mole, denom).$times(i%2 == 1 ? -1 : 1);
+        return createRational(mole, denom.multiply(BigInteger.valueOf(4))).$times(i%2 == 0 ? 1 : -1);
     }
 
     public static BigInteger gcd(BigInteger a, BigInteger b) {
@@ -123,10 +123,17 @@ public class Madhava {
         return x.underlying();
     }
 
-    public static void main(String[] args) {
-        System.out.println(quarterPi(2, Madhava::termFirst));
-        System.out.println(quarterPi(2, Madhava::termSecond));
-        System.out.println(quarterPi(2, Madhava::termThird));
-        System.out.println(quarterPi(2, Madhava::termFourth));
-    }
+//    public static void main(String[] args) {
+//        final BigNumber approximatePi = BigNumber.value(3, 1415927, true);
+//        System.out.println(approximatePi.divide(4).doubleValue());
+//        System.out.println(mglSeries(1000).toDouble());
+//        System.out.println(quarterPi(1000, Madhava::termFirst).toDouble());
+//        System.out.println(quarterPi(1000, Madhava::termSecond).toDouble());
+//        System.out.println(quarterPi(1000, Madhava::termThird).toDouble());
+//        System.out.println(quarterPi(1000, Madhava::termFourth).toDouble());
+//        System.out.println(termFirst(1000));
+//        System.out.println(termSecond(1000));
+//        System.out.println(termThird(1000));
+//        System.out.println(termFourth(1000));
+//    }
 }
