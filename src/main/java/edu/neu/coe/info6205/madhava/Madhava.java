@@ -5,49 +5,53 @@ import com.phasmidsoftware.number.core.Rational$;
 import scala.math.BigInt;
 
 import java.math.BigInteger;
+import java.util.function.Function;
 
 public class Madhava {
     // 1/N,   1/{N + 1/4N}, 1/{N + 1/[4N + 4/N]},
 
     // pi/4 = 1 - 1/3 + 1/5 - 1/7 + 1/9 -....
 
+
     // pi = 3 + 4/(3^3-3)-4/(5^3-5)+4/(7^3-7)-
 
-    public static Rational quarterPiFirst(int n) {
+    public static Rational mglSeries(int n) {
         Rational result = Rational$.MODULE$.apply(0);
         for(int i = 0; i < n; i++) {
             result = result.$plus(new Rational(convertToBigInt(BigInteger.valueOf(1)), convertToBigInt(BigInteger.valueOf(2 * i + 1))).$times(i%2 == 0 ? 1 : -1));
         }
-        result = result.$plus(termFirst(n));
         return result;
     }
 
-    public static Rational quarterPiSecond(int n) {
-        Rational result = Rational$.MODULE$.apply(0);
-        for(int i = 0; i < n; i++) {
-            result = result.$plus(new Rational(convertToBigInt(BigInteger.valueOf(1)), convertToBigInt(BigInteger.valueOf(2 * i + 1))).$times(i%2 == 0 ? 1 : -1));
-        }
-        result = result.$plus(termSecond(n));
+    public static Rational quarterPi(int n, Function<Integer, Rational> termFunc) {
+        Rational result = mglSeries(n);
+        result = result.$plus(termFunc.apply(n));
         return result;
     }
-
-    public static Rational quarterPiThird(int n) {
-        Rational result = Rational$.MODULE$.apply(0);
-        for(int i = 0; i < n; i++) {
-            result = result.$plus(new Rational(convertToBigInt(BigInteger.valueOf(1)), convertToBigInt(BigInteger.valueOf(2 * i + 1))).$times(i%2 == 0 ? 1 : -1));
-        }
-        result = result.$plus(termThrid(n));
-        return result;
-    }
-
-    public static Rational quarterPiFourth(int n) {
-        Rational result = Rational$.MODULE$.apply(0);
-        for(int i = 0; i < n; i++) {
-            result = result.$plus(new Rational(convertToBigInt(BigInteger.valueOf(1)), convertToBigInt(BigInteger.valueOf(2 * i + 1))).$times(i%2 == 0 ? 1 : -1));
-        }
-        result = result.$plus(termFourth(n));
-        return result;
-    }
+//
+//    public static Rational quarterPiFirst(int n) {
+//        Rational result = mglSeries(n);
+//        result = result.$plus(termFirst(n));
+//        return result;
+//    }
+//
+//    public static Rational quarterPiSecond(int n) {
+//        Rational result = mglSeries(n);
+//        result = result.$plus(termSecond(n));
+//        return result;
+//    }
+//
+//    public static Rational quarterPiThird(int n) {
+//        Rational result = mglSeries(n);
+//        result = result.$plus(termThrid(n));
+//        return result;
+//    }
+//
+//    public static Rational quarterPiFourth(int n) {
+//        Rational result = mglSeries(n);
+//        result = result.$plus(termFourth(n));
+//        return result;
+//    }
 
     /**
      * the first correction term is
@@ -79,7 +83,7 @@ public class Madhava {
      * @param i
      * @return
      */
-    public static Rational termThrid(long i) {
+    public static Rational termThird(long i) {
         BigInteger n = BigInteger.valueOf(i);
         BigInteger mole = n.pow(2).multiply(BigInteger.valueOf(4)).add(BigInteger.valueOf(4));
         BigInteger denom = n.pow(3).multiply(BigInteger.valueOf(4)).add(n.multiply(BigInteger.valueOf(4))).add(BigInteger.ONE);
@@ -120,9 +124,9 @@ public class Madhava {
     }
 
     public static void main(String[] args) {
-        System.out.println(quarterPiFirst(30));
-        System.out.println(quarterPiSecond(30));
-        System.out.println(quarterPiThird(30));
-        System.out.println(quarterPiFourth(30));
+        System.out.println(quarterPi(2, Madhava::termFirst));
+        System.out.println(quarterPi(2, Madhava::termSecond));
+        System.out.println(quarterPi(2, Madhava::termThird));
+        System.out.println(quarterPi(2, Madhava::termFourth));
     }
 }
