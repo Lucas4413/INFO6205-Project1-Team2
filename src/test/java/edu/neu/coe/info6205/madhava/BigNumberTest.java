@@ -2,6 +2,7 @@ package edu.neu.coe.info6205.madhava;
 
 import com.phasmidsoftware.number.core.Rational;
 import org.junit.Test;
+import scala.math.BigInt;
 import scala.util.Try;
 
 import java.math.BigDecimal;
@@ -216,11 +217,18 @@ public class BigNumberTest {
         assertEquals(BigNumber.value(0L, 157079635L, true), target.divide(BigNumber.value(20)));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testDivideBigNumber2() {
         BigNumber target = BigNumber.value(3, 333333, true);
         BigNumber divisor = BigNumber.value(1, 111111, true);
         assertEquals(BigNumber.value(3L), target.divide(divisor));
+    }
+
+    @Test
+    public void testDivideBigNumber3() {
+        BigNumber target = BigNumber.value(3, 333333, true);
+        BigNumber divisor = BigNumber.value(9, 999999, true);
+        assertEquals(BigNumber.value(Rational.apply(BigInt.apply(3), BigInt.apply(9))), target.divide(divisor));
     }
 
     @Test
