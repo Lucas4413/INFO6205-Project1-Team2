@@ -29,10 +29,10 @@ public class MadhavaTest extends TestCase {
 
     @Test
     public void testPi() {
-        assertEquals(approximatePi.divide(4).doubleValue(), Madhava.quarterPi(1000, Madhava::termFirst).toDouble(), 1E-3);
-        assertEquals(approximatePi.divide(4).doubleValue(), Madhava.quarterPi(1000, Madhava::termSecond).toDouble(), 1E-3);
-        assertEquals(approximatePi.divide(4).doubleValue(), Madhava.quarterPi(1000, Madhava::termThird).toDouble(), 1E-3);
-        assertEquals(approximatePi.divide(4).doubleValue(), Madhava.quarterPi(1000, Madhava::termFourth).toDouble(), 1E-3);
+        assertEquals(approximatePi.divide(4).doubleValue(), Madhava.quarterPi(1000, Madhava::termFirst).toDouble(), 1E-6);
+        assertEquals(approximatePi.divide(4).doubleValue(), Madhava.quarterPi(1000, Madhava::termSecond).toDouble(), 1E-6);
+        assertEquals(approximatePi.divide(4).doubleValue(), Madhava.quarterPi(1000, Madhava::termThird).toDouble(), 1E-6);
+        assertEquals(approximatePi.divide(4).doubleValue(), Madhava.quarterPi(1000, Madhava::termFourth).toDouble(), 1E-6);
     }
 
     @Test
