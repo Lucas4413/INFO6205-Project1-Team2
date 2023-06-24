@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.madhava;
 
+import com.phasmidsoftware.number.core.Rational;
 import junit.framework.TestCase;
 import org.junit.Test;
 
