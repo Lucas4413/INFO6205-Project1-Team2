@@ -4,6 +4,7 @@ import com.phasmidsoftware.number.core.Rational;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -309,10 +310,36 @@ public class BigNumber extends Number implements Comparable<BigNumber> {
     }
 
     public BigNumber divide(BigNumber x) {
-        if (x.decimals.length > 0)
+        if (x.decimals.length > 0) {
             // TODO implement long division.
-            throw new BigNumberException("divide is not supported for division by non-whole numbers");
-        else {
+//            throw new BigNumberException("divide is not supported for division by non-whole numbers");
+            BigDecimal dividend = toBigDecimal();
+            BigDecimal divisor = x.toBigDecimal();
+            BigDecimal res;
+            try {
+                res = dividend.divide(divisor);
+            }catch (Exception e){
+                res = dividend.divide(divisor, 1000, RoundingMode.DOWN);
+            }
+
+            BigInteger resWhole = BigInteger.valueOf(res.longValue());
+            BigDecimal dec = res.remainder(BigDecimal.ONE);
+
+            if (dec.compareTo(BigDecimal.valueOf(0))>0){
+                String decimal = dec+"";
+
+                int[] decimals = new int[decimal.length()-2];
+                for (int i = 2; i<decimal.length(); i++){
+                    decimals[i-2] = Integer.valueOf(decimal.charAt(i)+"");
+                }
+
+                return new BigNumber(resWhole, decimals, sign==x.sign);
+            }
+
+            return new BigNumber(resWhole, new int[]{}, sign==x.sign);
+        } else if(x.isWhole() && x.whole.equals(BigInteger.valueOf(0))){
+            throw new BigNumberException("divisor can't be 0");
+        } else {
             BigNumber quotient = divide(x.whole);
             return x.sign ? quotient : quotient.negate();
         }
