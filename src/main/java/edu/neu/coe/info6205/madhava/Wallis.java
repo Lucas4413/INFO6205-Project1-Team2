@@ -72,11 +72,11 @@ public class Wallis {
 
         // Run the benchmarks
         int m = 1000; // Number of times to run the benchmarks
-//        double regularTime = regularBenchmark.runFromSupplier(supplier, m);
-//        double karatsubaTime = karatsubaBenchmark.runFromSupplier(supplier, m);
-//
-//        System.out.println("Average time for regular multiplication: " + regularTime + " ns");
-//        System.out.println("Average time for Karatsuba multiplication: " + karatsubaTime + " ns");
+        double regularTime = regularBenchmark.runFromSupplier(supplier, m);
+        double karatsubaTime = karatsubaBenchmark.runFromSupplier(supplier, m);
+
+        System.out.println("Average time for regular multiplication: " + regularTime + " ns");
+        System.out.println("Average time for Karatsuba multiplication: " + karatsubaTime + " ns");
 
         BigNumber res = BigNumber.parse("2");
         int k = 1;
