@@ -130,7 +130,7 @@ public class BigNumber extends Number implements Comparable<BigNumber> {
             int decimals = group4.length();
             int[] dec = new int[decimals];
             for (int i = 0; i < decimals; i++) dec[i] = group4.charAt(i) - '0';
-            return new BigNumber(BigInteger.valueOf(Long.parseLong(matcher.group(2))), dec, !matcher.group(1).equals("-"));
+            return new BigNumber(new BigInteger(matcher.group(2)), dec, !matcher.group(1).equals("-"));
         } else throw new BigNumberException("cannot parse input string: " + s);
     }
 
@@ -309,6 +309,56 @@ public class BigNumber extends Number implements Comparable<BigNumber> {
         return new BigNumber(carry.add(BigInteger.valueOf(results[0])), dec, sign == that.sign);
     }
 
+    /**
+     * Method to implement the multiplication with Karatsuba’s method
+     *
+     * @return BigNumber of multiplication result.
+     */
+    public BigNumber karatsubaMultiply(BigNumber that) {
+        int decimalPoints = this.decimals.length + that.decimals.length;
+
+        BigInteger x = new BigInteger(this.toString().replace(".", ""));
+        BigInteger y = new BigInteger(that.toString().replace(".", ""));
+
+        return adjustForDecimalPoints(multiplyKaratsuba(x, y), decimalPoints, sign==that.sign);
+    }
+
+    public static BigInteger multiplyKaratsuba(BigInteger x, BigInteger y) {
+        int N = Math.max(x.bitLength(), y.bitLength());
+        if (N <= 2000) return x.multiply(y); // fallback to standard multiplication for small input numbers to avoid overhead of recursion
+
+        N = (N / 2) + (N % 2); // bitLength/2 rounded up
+
+        // x = a + 2^N b,   y = c + 2^N d
+        BigInteger b = x.shiftRight(N);
+        BigInteger a = x.subtract(b.shiftLeft(N));
+        BigInteger d = y.shiftRight(N);
+        BigInteger c = y.subtract(d.shiftLeft(N));
+
+        // compute sub-expressions
+        BigInteger ac = multiplyKaratsuba(a, c);
+        BigInteger bd = multiplyKaratsuba(b, d);
+        BigInteger abcd = multiplyKaratsuba(a.add(b), c.add(d));
+
+        return ac.add(abcd.subtract(ac).subtract(bd).shiftLeft(N)).add(bd.shiftLeft(2*N));
+    }
+
+    // support method to deal with decimals and sign of multiplication result
+    private BigNumber adjustForDecimalPoints(BigInteger number, int decimalPoints, boolean sign) {
+        String strNumber = number.toString();
+
+        if (strNumber.length() <= decimalPoints) {
+            while (strNumber.length() < decimalPoints)
+                strNumber = "0" + strNumber;
+            strNumber = "0." + strNumber;
+        } else {
+            strNumber = strNumber.substring(0, strNumber.length() - decimalPoints) + "." + strNumber.substring(strNumber.length() - decimalPoints);
+        }
+
+        return sign ? BigNumber.parse(strNumber) : BigNumber.parse(strNumber).negate();
+    }
+
+
     public BigNumber divide(BigNumber x) {
         if (x.decimals.length > 0) {
             // TODO implement long division.
@@ -418,7 +468,7 @@ public class BigNumber extends Number implements Comparable<BigNumber> {
      * @param sign     true if the result is to a positive number.
      */
     public BigNumber(BigInteger whole, int[] decimals, boolean sign) {
-        if (whole.signum() < 0) throw new RuntimeException("BigNumber constructor: whole must be non-negative");
+        if (whole.signum() < 0) {System.out.println(whole); throw new RuntimeException("BigNumber constructor: whole must be non-negative");};
         this.whole = whole;
         this.decimals = trim(decimals);
         this.sign = sign;

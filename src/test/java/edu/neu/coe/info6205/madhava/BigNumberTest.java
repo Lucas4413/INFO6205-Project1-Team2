@@ -103,7 +103,7 @@ public class BigNumberTest {
     @Test
     public void testAdd2() {
         BigNumber addend = BigNumber.value(1, 111111, false);
-        assertEquals(new BigNumber(BigInteger.TWO, new int[]{0, 3, 0, 4, 8, 1, 7}, true), approximatePi.add(addend));
+        assertEquals(new BigNumber(BigInteger.valueOf(2), new int[]{0, 3, 0, 4, 8, 1, 7}, true), approximatePi.add(addend));
     }
 
     @Test
@@ -117,7 +117,7 @@ public class BigNumberTest {
     public void testAdd4() {
         BigNumber target = BigNumber.value(3, 1415927, false);
         BigNumber addend = BigNumber.value(1, 111111);
-        assertEquals(new BigNumber(BigInteger.TWO, new int[]{0, 3, 0, 4, 8, 1, 7}, false), target.add(addend));
+        assertEquals(new BigNumber(BigInteger.valueOf(2), new int[]{0, 3, 0, 4, 8, 1, 7}, false), target.add(addend));
     }
 
     @Test
